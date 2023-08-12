@@ -24,20 +24,7 @@ function App() {
   }
   ])
 
-  //Ternario --> Condicion ? seMuestra : noSeMuestra
-
-  const cambiarMostrar = () => {
-    actualizarMostrar(!mostrarFormulario)
-  }
-
-  const registrarColaborador = (colaborador) =>{
-    console.log("Nuevo Colaborador", colaborador)
-    //Spread operator
-    actualizarColaboradores([...colaboradores, colaborador])
-  }
-
-  //Lista de equipos
-  const equipos = [
+  const [equipos, actualizarEquipos] = useState([
     {
       titulo: "Programación",
       colorPrimario: "#57c278",
@@ -73,7 +60,37 @@ function App() {
       colorPrimario: "#ff8a29",
       colorSecundario: "#ffeedf"
     },
-  ]
+  ])
+
+  //Ternario --> Condicion ? seMuestra : noSeMuestra
+
+  const cambiarMostrar = () => {
+    actualizarMostrar(!mostrarFormulario)
+  }
+
+  //registrar colaborador
+  const registrarColaborador = (colaborador) =>{
+    console.log("Nuevo Colaborador", colaborador)
+    //Spread operator
+    actualizarColaboradores([...colaboradores, colaborador])
+  }
+
+  //elimiar colaborador
+  const eliminarColaborador = () =>{
+    console.log("eliminar colaborador")
+  }
+
+  //actualizar color de equipo
+  const actualizarColor = (color, titulo) =>{
+    const equiposActualizados = equipos.map((equipo) =>{
+      if(equipo.titulo === titulo){
+        equipo.colorPrimario = color
+      }
+      return equipo
+    })
+    
+    actualizarEquipos(equiposActualizados)
+  }
 
   return (
     <div>
@@ -92,6 +109,8 @@ function App() {
           datos={equipo} 
           key={equipo.titulo}
           colaboradores={colaboradores.filter(colaborador => colaborador.equipo === equipo.titulo)}
+          eliminarColaborador={eliminarColaborador}
+          actualizarColor={actualizarColor}
           />
         )
       }
